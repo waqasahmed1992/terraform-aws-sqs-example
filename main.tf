@@ -1,3 +1,7 @@
+locals {
+  prefix = "sqs"
+}
+
 resource "aws_sqs_queue" "sqs" {
   name                       = "${local.prefix}-${var.queue_name}"
   visibility_timeout_seconds = var.visibility_timeout
@@ -9,7 +13,7 @@ resource "aws_sqs_queue" "sqs" {
 }
 
 resource "aws_sqs_queue" "sqs_dead_letter" {
-  name                      = "sqs-${var.queue_name}-deadletter-queue"
+  name                      = "${local.prefix}-${var.queue_name}-deadletter-queue"
   delay_seconds             = 0
   max_message_size          = 262144
   message_retention_seconds = 1209600 # 14 days.
